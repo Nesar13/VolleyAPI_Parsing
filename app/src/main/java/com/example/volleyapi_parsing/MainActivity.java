@@ -17,10 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Queue;
+
 public class MainActivity extends AppCompatActivity {
 
 
-    private RequestQueue requestQueue;
+//    private RequestQueue requestQueue; //if you want to do it without singletons
+    private RequestQueue queue;
+
+
 
 
     //https://jsonplaceholder.typicode.com/todos/1
@@ -30,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestQueue = Volley.newRequestQueue(this); //intializing the requestQueue
+//        requestQueue = Volley.newRequestQueue(this); //intializing the requestQueue w/out Singletons
+        queue=MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://jsonplaceholder.typicode.com/todos/1", null,
@@ -100,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        requestQueue.add(jsonObjectRequest1); //adding to queue
-        requestQueue.add(jsonArrayRequest);
-        requestQueue.add(jsonObjectRequest);
+        queue.add(jsonObjectRequest1); //adding to queue
+        queue.add(jsonArrayRequest);
+        queue.add(jsonObjectRequest);
 
 
     }
